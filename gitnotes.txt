@@ -1,0 +1,327 @@
+What is git
+-----------
+Git is a distributed version control system (DVCS) used for tracking changes in code and collaborating with multiple developers efficiently. 
+It was created by Linus Torvalds in 2005 for managing the development of the Linux kernel.
+
+Key Features of Git:
+------------------
+Distributed System – Every developer gets a full copy of the repository, allowing offline work.
+Branching & Merging – Allows developers to create separate branches for features, bug fixes, or experiments and merge them when ready.
+Speed & Efficiency – Designed for high performance with fast commits, branching, and merging.
+Security – Uses cryptographic hashing (SHA-1) to ensure integrity and prevent data loss.
+Collaboration – Enables multiple developers to work on the same project without conflicts.
+Rollback & History Tracking – Keeps a history of all changes, making it easy to revert to previous versions if needed.
+
+Git vs GitHub: What’s the Difference?
+Many people confuse Git and GitHub, but they are not the same! Here's a simple explanation:
+
+🔹 Git → A tool for tracking changes in code on your computer. Think of it as a time machine that helps you go back to previous versions of your project.
+🔹 GitHub → A website that stores your Git projects online. It makes it easy to share, collaborate, and manage your code with others.
+
+below is list of some commands:
+Git Config Command:
+------------------
+1. git --version 
+2. git config --global user.name "Your Name"
+3. git config --global user.email "YourEmail@gmail.com"
+4. git config --global color.ui auto 
+5. git config --global core.editor nano
+6. git config --global alias.st status
+7. git config --global --list
+
+Initializing and Managing Repository 
+-----------------------------------
+1. git init: The git init command is used to create a new Git repository in a project. It sets up the necessary files and folders for Git to start tracking changes.
+   command: git init 
+
+2.  git clone: The git clone command is used to copy (download) a remote Git repository to your local machine. This allows you to work on an existing project.
+
+    How to use git clone:
+    a. find the repository URL(From Github, GitLab)
+    b. open a terminal or command prompt 
+    c. run the following command:
+       command: git clone <repo url>
+
+3. git remote -v: – View Remote Repositories
+   The git remote -v command is used to list the remote repositories linked to your local Git project. This helps you see where your project is connected online (e.g., GitHub, GitLab, or Bitbucket).
+   How to Use git remote -v?
+   1. Open a terminal or command prompt
+   2. Go to your git project folder:
+      command: cd path/project
+   3. Run the command:
+      command: git remote -v
+
+  Example output:
+    origin  https://github.com/user/project.git (fetch)
+    origin  https://github.com/user/project.git (push)
+
+4.git remote add origin <repo_url> : Add a Remote Repository
+
+The git remote add origin <repo_url> command is used to link your local Git repository to a remote repository (like GitHub, GitLab, or Bitbucket). This allows you to push your code online and collaborate with others.
+
+ command: git remote add origin <repo_url>
+ example: git remote add origin https://github.com/user/project.git
+ note: verify the origin by git remote -v
+
+5. git remote remove origin: Remove a Remote Repository
+The git remote remove origin command is used to disconnect your local Git repository from a remote repository. This is helpful if you want to stop syncing with the current remote or switch to a different repository.
+
+command: git remote remove origin
+note:verify the origin by git remote -v 
+
+6. git remote set-url origin <new_url> : Change the Remote URL
+The git remote set-url origin <new_url> command is used to update the URL of an existing remote repository (usually the "origin" remote). This is helpful if the URL of the remote repository changes (for example, when you change the repository's location on GitHub or GitLab).
+
+command: git remote set-url origin <new_url>
+example: git remote set-url origin https://github.com/user/new-repo.git
+note: verify the origin by git remote -v
+
+Tracking & Staging Files
+------------------------
+1. git status - Check the status of the working directory
+   The git status command is used to check the current state of your working directory and staging area. It helps you understand:
+    ✅ Which files are tracked and untracked
+    ✅ Which changes are staged for commit
+    ✅ Which changes are not staged
+    ✅ If your branch is up-to-date with the remote repository
+    
+     Summary of Git Status Messages
+     ------------------------------
+
+ ->    Status Message: Working tree clean
+       Meaning: No changes to commit
+       Solution: No action needed
+ 
+ ->    Status Message: Untracked files
+       Meaning: New files not tracked by git 
+       Solution: Use git add <file> to track them
+ 
+ ->    Status Message: Changes not staged for commit
+       Meaning: Modified files, but not added to staging
+       Solution: Use git add <file> to stage them
+ 
+ ->    Status Message: Changes to be committed  
+       Meaning: Files are staged and ready to commit
+       Solution: Use git commit -m "message" to commit
+ 
+ ->    Status Message: Your branch is ahead of 'origin'
+       Meaning: Local commits are not pushed to remote
+       Solution: git push origin <branch>
+ 
+ ->    Status Message: Deleted files not staged
+       Meaning: Files were deleted but not committed
+       Solution: Use git rm <file> to confirm deletion  	
+        
+2. git add - Stage a specific files for commit
+   The git add command is used to stage changes in Git. Before committing changes, you must add them to the staging area using git add.
+   
+   Why Use git add?
+   ✅ It prepares files for committing.
+   ✅ It allows selective commits (you don’t have to commit all changes).
+   ✅ It tracks new, modified, and deleted files. 
+   
+   1. git add <file> - Stage a specific file for commit
+      command : git add filename.txt
+      command: git add file1.txt file2.txt - add multiple file
+
+   2. git add . - Stage all the changes in the directory
+      This stages all modified and new files in the directory.
+      Warning: This also stages unintentional changes. Use git status before running this command.
+ 
+   3. git add -A - Stage all files (tracked + untracked)
+      This is similar to git add ., but also tracks deleted files.
+   
+   4. git add -u - This stages only modified & deleted files, ignoring new files.
+ 
+  How to verify Added Files:
+  command: git status
+  
+  🔹 Before git add:
+   Changes not staged for commit:
+   modified:  index.html
+   new file:  style.css
+ 
+  🔹 After git add . :
+   Changes to be committed:
+   modified:  index.html
+   new file:  style.css
+
+
+🔹 Unstage a File (Undo git add)
+
+ If you accidentally added a file and want to remove it from staging:
+ 
+  git restore --staged filename.txt
+
+ or for all staged files:
+  git restore --staged .
+
+ This removes files from the staging area without deleting the changes.
+   
+3. git reset <file> - Unstage a file (move it back to working directory)
+   The git reset <file> command is used to unstage a file that was added using git add. It removes the file from the staging area, but keeps your changes in the working directory.
+
+🔹 Why Use git reset <file>?
+
+✅ Undo git add without losing file changes.
+✅ Fix mistakes if you staged the wrong file.
+✅ Keep your work but remove it from the next commit.
+
+🔹 Basic Usage
+git reset <file>
+This unstages the specific file but keeps your changes.
+
+🔹 Example Scenarios
+
+1️⃣  Unstage a Specific File
+
+git add report.txt
+git reset report.txt
+
+🔹 Before git reset (git status output)
+
+Changes to be committed:
+  new file: report.txt
+
+🔹 After git reset report.txt (git status output)
+
+Changes not staged for commit:
+  new file: report.txt
+
+2️⃣ Unstage All Files
+
+git reset - This unstages all staged files.
+
+git reset <file>:	Unstages the file but keeps changes.
+git restore --staged <file>:	Does the same as git reset <file>.
+git reset --hard:	Removes all unstaged changes.
+git restore <file>:	Discards unstaged changes.
+
+🔹 When to Use git reset <file>?
+
+✔️ If you staged a file by mistake.
+✔️ If you want to modify the file before committing.
+✔️ If you need to review changes before committing. 
+
+
+Commit Changes
+------ ------
+
+1. git commit -m "Message" - Commit staged changes with a message
+   The git commit -m "Message" command is used to save staged changes in Git. It creates a commit, which acts like a snapshot of your project at that point in time.
+
+🔹 Why Use git commit?
+
+✅ Saves changes in Git history.
+✅ Helps track modifications over time.
+✅ Enables collaboration with other developers.
+✅ Creates a checkpoint to revert back if needed.
+
+🔹 Basic Usage
+command: git commit -m "Added a new feature"
+
+✅ This creates a commit with the message "Added a new feature".
+
+ How git commit Works
+
+1️⃣  Modified Files (Not Staged)
+If you modify a file (index.html), running git status shows:
+Changes not staged for commit:
+  modified: index.html
+
+You must stage the file before committing:
+  command: git add index.html
+
+2️⃣  Commit Staged Changes
+command: git commit -m "Updated index.html"
+
+Now git status will show:
+nothing to commit, working tree clean
+
+✅ Your changes are now saved in Git history.
+
+3️⃣  Commit All Staged Files
+   command: git add .
+   command: git commit -m "Updated multiple files"
+✅ This commits all staged changes.
+
+
+🔹 Writing Good Commit Messages
+
+A good commit message should:
+✔️ Be short and clear
+✔️ Explain what changed
+✔️ Use present tense (e.g., "Fix bug", not "Fixed bug")
+
+Examples of Good Commit Messages
+✅ "Fix login bug in authentication system"
+✅ "Add dark mode toggle feature"
+✅ "Update README with setup instructions"
+
+
+2. git commit --amend -m "New Message" - Modify the last commit message:
+
+The git commit --amend -m "New Message" command allows you to change the last commit message without creating a new commit. This is useful if you made a typo or want to provide a better description.
+
+🔹 Why Use git commit --amend?
+
+✅ Fix mistakes in the last commit message.
+✅ Add missing changes without creating a new commit.
+✅ Keep the commit history clean.
+
+🔹 Adding New Changes to the Last Commit
+   If you forgot to add a file before committing:
+
+      command: git add missing_file.txt
+      command: git commit --amend -m "Updated commit with missing file"
+✅ This updates the commit to include the new file.
+
+🔹 Important Notes
+
+🚨 Do NOT amend a commit that has been pushed to a shared repository!
+If the commit is already pushed, amending it creates a new commit hash, which can cause conflicts for others.
+
+🔹 How to Fix an Amended Commit After Pushing?
+
+If you already pushed the commit and amended it, you'll need to force-push:
+ git push origin main --force
+
+🚨 Warning: --force can overwrite others' work, so use it carefully.
+
+3. git commit --amend --no-edit - Modify the last commit without changing the message
+   The git commit --amend --no-edit command allows you to update the last commit without changing its message. This is useful when you need to add new changes to the last commit without modifying the commit message.
+
+🔹 Why Use git commit --amend --no-edit?
+
+✅ Add missing files to the last commit.
+✅ Avoid creating unnecessary commits.
+✅ Keep the commit history clean.
+
+🔹 Example Use Cases
+
+1️⃣  Add a Missing File to the Last Commit
+If you forgot to include index.html in your last commit:
+
+command: git add index.html
+command: git commit --amend --no-edit
+
+
+✅ This updates the last commit without changing the message.
+
+2️⃣  Modify a File Without Creating a New Commit
+If you made a small change to style.css and want to update the last commit:
+git add style.css
+git commit --amend --no-edit
+
+✅ Now the last commit includes the style.css changes without creating a new commit 
+
+🔹 Important Notes
+
+🚨 Avoid using --amend on pushed commits unless you're sure.
+If you've already pushed the commit, you'll need to force-push:
+
+command: git push origin main --force
+⚠️ Warning: --force can overwrite others' changes, so use it carefully.
+
+
+
