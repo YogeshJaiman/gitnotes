@@ -571,4 +571,152 @@ command: git log --author="Yogesh"
 5️⃣  Show Commits in a Graph
 command: git log --graph --oneline --all --decorate
 
+2. git show <commit-hash> - Show details of a specific commit
+The git show <commit-hash> command displays detailed information about a specific commit, including:
+
+✅ Commit metadata (author, date, message)
+✅ File changes (added, modified, or deleted)
+✅ Actual code differences (diff)
+
+command: git show a1b2c3d4
+
+📝 Breakdown
+Commit metadata: Shows who made the commit and when.
+Commit message: Describes the changes.
+Diff section: Shows what was removed (-) and added (+).
+
+🔎 Useful Options
+1️⃣  Show Changes for a Specific File
+command: git show a1b2c3d4 -- login.py
+✅ Shows only the changes in login.py.
+
+2️⃣  View Only the Commit Message
+command: git show --quiet a1b2c3d4
+
+✅ Hides file changes, showing only the commit message.
+
+3️⃣  Show Changes in a Compact Format
+
+command: git show --stat a1b2c3d4
+
+✅ Displays a summary of modified files and lines changed.
+
+3. git diff - Show differences between working directory and last commit:
+
+The git diff command shows the differences between versions of files in your repository. Let’s go step by step with real-world examples.
+
+the git diff command shows differences between:
+✅ The working directory and the last commit
+✅ Two commits
+✅ Two branches
+✅ A commit and a branch
+
+1. Compare Unstaged Changes (Working Directory vs. Last Commit)
+If you edit a file (app.py) but haven’t staged it yet, run:
+command: git diff 
+
+Example output:
+diff --git a/app.py b/app.py
+index 123abc..456def 100644
+--- a/app.py
++++ b/app.py
+@@ -5,7 +5,7 @@ def welcome():
+     print("Hello, User!")
+-    print("Welcome to our app!")
++    print("Welcome to our awesome app!")
+
+📝 Explanation:
+
+The red (-) line was removed.
+The green (+) line was added.
+This change is not yet staged.
+
+2️⃣  Compare Staged Changes (Ready to Commit):
+
+if you stage the changes using git add:
+command: git add app.py
+
+then run: 
+command: git diff --staged
+✅ Now, it shows the differences between staged files and the last commit.
+
+3️⃣  Compare Two Commits
+If you want to see what changed between two commits:
+command: git diff a1b2c3d4 e5f6g7h8
+
+Example output:
+diff --git a/app.py b/app.py
+index abc123..def456 100644
+--- a/app.py
++++ b/app.py
+@@ -1,5 +1,5 @@
+ def welcome():
+-    print("Hello, User!")
++    print("Hello, Guest!")
+
+
+4️⃣  Compare Two Branches:
+command: git diff main feature-branch
+
+✅ Shows what’s different between feature-branch and main.
+
+5️⃣  Compare a Commit and a Branch:
+command: git diff a1b2c3d4 main
+
+✅ Shows changes between commit a1b2c3d4 and the main branch.
+
+6️⃣  Compare a Specific File:
+If you only want to check app.py:
+
+command: git diff main feature-branch -- app.py
+
+✅ Shows changes in only app.py between main and feature-branch.
+
+7️⃣  See Changes in a Side-by-Side Format:
+command: git diff --word-diff
+
+4. git blame <file> - Show who last edited each line of a file
+
+The git blame command shows line-by-line changes in a file, along with:
+✅ Who made each change
+✅ When the change was made
+✅ Which commit introduced the change
+
+🛠 Basic Usage
+git blame app.py
+
+✅ This shows the history of changes for app.py.
+
+📌 Example Output
+a1b2c3d4 (Yogesh Jaiman 2025-02-11 10:00:00) def welcome():
+e5f6g7h8 (John Doe     2025-02-12 14:15:30)     print("Hello, User!")
+f9g0h1i2 (Alice Smith  2025-02-13 09:45:10)     print("Welcome to our app!")
+
+📝 Breakdown
+a1b2c3d4 → The commit that added or modified the line.
+Yogesh Jaiman → The author of that commit.
+2025-02-11 10:00:00 → The timestamp when the change was made.
+print("Welcome to our app!") → The actual line of code.
+
+🔎 Useful Options
+
+1️⃣  Show Only a Specific Line Range:
+
+command: git blame -L 5,10 app.py
+
+✅ Shows only lines 5 to 10 of app.py.
+
+2️⃣  Ignore Whitespace Changes:
+command: git blame -w app.py
+
+✅ Ignores minor formatting changes like spaces and tabs.
+
+3️⃣  See Blame History from a Specific Commit
+ command: git blame a1b2c3d4 -- app.py
+✅ Shows blame starting from commit a1b2c3d4.
+
+4️⃣  Show Commit Messages Alongside Blame:
+command: git blame -e app.py
+✅ Displays author email instead of name.
+
 
