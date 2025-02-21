@@ -720,3 +720,275 @@ command: git blame -e app.py
 ✅ Displays author email instead of name.
 
 
+Undoing Changes:
+
+1. git restore <file> : Discard local changes in a file
+
+   The git restore command is used to discard changes in files and bring them back to their previous state. Let’s go step by step with examples.
+
+   1️⃣  Discard Changes in a File (Undo Unstaged Changes)
+      If you made some edits in a file (app.py) but haven’t staged them yet, you can restore the last committed version with:
+      command: git restore app.py
+
+    ✅ This undoes all changes in app.py and restores the last committed version.
+
+    💡 Use Case: You accidentally made unwanted changes to a file and want to discard them.
+
+
+  2️⃣  Discard All Unstaged Changes in the Repository:
+     If you want to discard all changes in multiple files:
+     command: git restore .
+✅ This restores all files in the working directory to their last committed state.
+
+⚠ Warning: This cannot be undone unless you have a backup or the changes are committed somewhere.
+
+3️⃣  Restore a Staged File (Unstage Changes but Keep Edits):
+
+If you already staged a file using git add but want to unstage it (without losing your edits):
+
+command: git restore --staged app.py
+
+✅ This removes the file from staging but keeps your changes.
+
+💡 Use Case: You mistakenly staged a file but aren’t ready to commit it.
+
+4️⃣  Restore a File to a Specific Commit
+
+If you want to restore a file to an older commit version:
+
+command: git restore --source a1b2c3d4 app.py
+✅ This brings back the version of app.py from commit a1b2c3d4.
+
+
+🚀 Summary of git restore Commands
+Command: git restore <file>
+Description: Discard unstaged changes in a file
+
+Command: git restore .
+Description: Discard all unstaged changes in the repo
+
+Command: git restore --staged <file>
+Description: Unstage a file but keep changes
+
+Command: git restore --source <commit> <file>
+Description: Restore a file from a specific commit
+
+2. git reset - Undo Changes in Git 
+   The git reset command is used to undo commits, unstage files, or remove changes from the working directory. Let’s break it down step by step.
+
+1️⃣  git reset Without Any Flags (Unstage Files):
+
+  command: git reset app.py
+
+✅ This unstages app.py, meaning it removes it from the staging area (as if git add was never run).
+
+💡 Use Case: You staged a file using git add, but now you don’t want to include it in the next commit.
+
+2️⃣  git reset --soft <commit> (Keep Changes, Undo Commits)
+
+  command: git reset --soft HEAD~1
+
+✅ Moves the branch one commit back, but keeps all changes staged.
+
+💡 Use Case: You committed too soon but want to modify files before re-committing.
+
+3️⃣  git reset --mixed <commit> (Unstage Changes, Keep Files)
+
+  command:git reset --mixed HEAD~1
+
+✅ Moves the branch one commit back, removes changes from staging, but keeps files unchanged.
+
+💡 Use Case: You committed changes but realized they shouldn’t have been staged yet.
+
+4️⃣  git reset --hard <commit> (Undo Commits & Delete Changes):
+
+  command: git reset --hard HEAD~1
+
+✅ Moves the branch one commit back and deletes all changes in the working directory.
+
+⚠ Dangerous! Changes are gone forever unless backed up.
+
+💡 Use Case: You made a bad commit and want to completely remove all traces of it.
+
+5️⃣  Reset to a Specific Commit:
+
+   command: git reset --hard a1b2c3d4
+
+✅ Moves the branch back to commit a1b2c3d4 and deletes all commits after it.
+
+3. git clean -f - Remove untracked files
+
+The git clean command is used to delete untracked files (files that are not staged or committed) from your working directory. This is useful when you want to clean up temporary or unnecessary files.
+
+1️⃣  Basic Usage – Remove Untracked Files
+
+  command : git clean -f
+
+✅ This forcefully removes all untracked files.
+⚠ Warning: This action is irreversible – deleted files cannot be recovered!
+
+💡 Use Case: You created temporary files (*.log, *.tmp, etc.) and want to remove them.
+
+2️⃣  Preview Before Deleting (-n Flag)
+
+   command: git clean -n
+
+✅ This shows which files will be deleted without actually deleting them.
+
+💡 Use Case: Always check before running git clean -f to avoid accidental deletion.
+
+3️⃣  Remove Untracked Directories (-d Flag):
+
+   command: git clean -fd
+
+4️⃣  Remove Only Specific File Types (-X & -x Flags):
+
+   command: git clean -X - Removes ignored files (e.g., .gitignore files).
+   command: git clean -x - Removes all untracked files, including ignored files.
+
+Example: remove only Ignored Files:
+ Command: git clean -fX
+
+✅ Deletes files listed in .gitignore, but keeps other untracked files.
+
+🛠 Example: Remove Everything, Including Ignored Files
+
+command: git clean -fx
+✅ Deletes all untracked files, including ignored ones.
+
+⚠ Be careful! This is a destructive action.
+
+
+Working with remote repositories: 
+-----------------------------------
+
+1. git pull origin <branch>: Fetch and merge changes from remote:
+
+The git pull command is used to fetch the latest changes from a remote repository and merge them into your local branch.
+
+1️⃣  Basic Usage
+
+Command: git pull origin main
+
+✅ This fetches the latest changes from the main branch of the remote (origin) and merges them into your local main branch.
+
+💡 Use Case: When working in a team, use git pull to get the latest updates before making changes.
+
+2️⃣  What Happens Internally?
+
+git pull origin <branch> is equivalent to running these two commands:
+
+1️⃣  Fetch latest changes from the remote repository
+
+Command: git fetch origin
+
+2️⃣  Merge the fetched changes into your current branch
+
+Command: git merge origin/main
+
+3️⃣  Handling Merge Conflicts
+
+If there are conflicting changes, Git will show a merge conflict message. You must resolve the conflicts manually:
+
+1. Open the affected file(s).
+2. Edit the conflicting sections.
+3. Stage the resolved files using git add <file>.
+4. Complete the merge with git commit -m "Resolved merge conflict".
+
+4️⃣  Fast-Forward vs. Merge Pull
+
+Pull Type         Description
+Fast-forward  -  If your local branch has no new commits, Git moves the pointer forward without a merge commit.
+Merge pull    - If your local branch has diverged, Git creates a merge commit to combine changes.
+
+5️⃣  Using --rebase Instead of Merge
+
+To apply the remote changes on top of your local changes instead of merging:
+
+command: git pull --rebase origin main
+
+✅ This keeps a cleaner commit history by avoiding merge commits.
+
+💡 Use Case: When working in a shared repository, use --rebase to keep changes linear.
+
+2. git push origin <branch> - Push local changes to remote
+
+ The git push command is used to upload local commits to a remote repository so others can access them.
+
+1️⃣  Basic Usage
+
+Command: git push origin main
+
+✅ This pushes your local main branch to the remote repository (origin).
+
+💡 Use Case: After making changes and committing them, use git push to share your work with others.
+
+2️⃣  What Happens Internally?
+1. Git checks if your local branch has new commits.
+2. It uploads (pushes) those commits to the remote branch.
+3. If there are no conflicts, the remote branch updates with your changes.
+
+3️⃣  What If Someone Else Has Pushed Changes?
+
+If the remote branch has new changes, Git will reject your push.
+You'll see an error like this:
+
+! [rejected] main -> main (fetch first)
+
+
+Solution: Pull the latest changes first!
+command: git pull origin main --rebase  # Fetch and reapply your changes
+Command: git push origin main  # Now push again
+
+4️⃣  Pushing a New Branch to Remote
+
+If your branch doesn’t exist on the remote, create and push it:
+
+Command: git push -u origin feature-branch
+
+✅ The -u flag sets origin/feature-branch as the default remote branch for future pushes.
+
+5️⃣  Force Push (Use With Caution!)
+
+Command: git push --force origin main
+
+✅ Overwrites the remote branch with your local version.
+⚠ DANGER: This can delete others' changes if used incorrectly.
+
+🗑️ git push origin --delete <branch> – Delete a Remote Branch
+
+If you no longer need a branch on the remote repository, you can delete it using:
+
+Command: git push origin --delete feature-branch
+
+✅ This removes feature-branch from the remote repository (origin).
+
+💡 Use Case: After merging a feature branch into main, delete the branch to keep the repo clean.
+
+1️⃣  How It Works
+
+1. Git removes the branch from the remote repo.
+2. Other team members will no longer see the branch when they pull updates.
+3. This does not delete the branch locally! (You must delete it separately.)
+
+2️⃣  Delete the Local Branch Too
+
+After deleting the remote branch, clean up your local repo:
+
+Command: git branch -d feature-branch  # Delete the local branch
+
+⚠ If the branch has unmerged changes, Git will warn you. To force delete:
+Command: git branch -D feature-branch  # Force delete locally
+
+3️⃣  Verify the Deletion
+
+Check if the branch is still on the remote repo:
+Command: git branch -r  # Lists remote branches
+
+✅ If origin/feature-branch is missing, the deletion was successful!
+
+Stashing Changes:
+------------------
+
+
+
