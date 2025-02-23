@@ -989,6 +989,66 @@ Command: git branch -r  # Lists remote branches
 
 Stashing Changes:
 ------------------
+1. git stash – Temporarily Save Uncommitted Changes
+The git stash command temporarily saves uncommitted changes without committing them, allowing you to switch branches or work on something else without losing progress.
 
+1️⃣  Basic Usage:
+
+command: git stash
+
+✅ This stores all modified and staged files in a temporary stash and reverts your working directory to a clean state.
+
+💡 Use Case: If you need to switch branches but have unfinished changes, use git stash to save them safely.
+
+2️⃣  View Stashed Changes: 
+
+command: git stash list
+
+✅ Shows all saved stashes. Example output:
+
+stash@{0}: WIP on main: a1b2c3d Fixed a bug
+stash@{1}: WIP on feature-branch: e4f5g6 Updated UI
+
+
+Each stash has an index (stash@{0}, stash@{1}) that can be used to apply or drop it later.
+
+3️⃣  Restore Stashed Changes:
+
+🛠 Option 1: Apply the Last Stash (Keep Stash)
+
+command: git stash apply
+
+✅ Restores the most recent stash but keeps it in the stash list.
+
+♻ Option 2: Apply and Remove the Last Stash
+
+Command: git stash pop
+
+✅ Restores the most recent stash and deletes it from the stash list.
+
+🎯 Option 3: Apply a Specific Stash
+
+command: git stash apply stash@{1}
+
+✅ Restores a specific stash without removing it.
+
+4️⃣  Remove Stashes
+
+🚮 Delete a Specific Stash
+Command: git stash drop stash@{0}
+
+✅ Removes only stash@{0} from the stash list.
+
+🔥 Delete All Stashes
+
+Command: git stash clear
+
+✅ Permanently deletes all stashed changes.
+
+5️⃣  Stash Untracked (New) Files
+By default, git stash only saves tracked files. To include untracked files:
+
+Command: git stash -u  # Stash untracked files
+Command: git stash -a  # Stash all ignored and untracked files
 
 
